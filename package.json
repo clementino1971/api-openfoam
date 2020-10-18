@@ -1,0 +1,19 @@
+{
+  "name": "api-openfoam",
+  "version": "1.0.0",
+  "description": "An API to run openFoam simulations.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/clementino1971/api-openfoam.git"
+  },
+  "author": "Thailsson Clementino",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/clementino1971/api-openfoam/issues"
+  },
+  "homepage": "https://github.com/clementino1971/api-openfoam#readme"
+}
