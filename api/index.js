@@ -1,0 +1,11 @@
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const config = require('config')
+
+app.use(bodyParser.json());
+
+const router = require('./routes/cavity');
+app.use('/api/cavity', router);
+
+app.listen(config.get('api.porta'), () => console.log("Pai Tá ON!!"));
