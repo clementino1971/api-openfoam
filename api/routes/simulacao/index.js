@@ -1,19 +1,33 @@
 const router = require('express').Router();
-const { exec } = require("child_process");
-const fs = require("fs");
-const Simulacao = require('../../classes/Simulacao').Simulacao;
-const Elbow = require('../../classes/Simulacao').Elbow;
+const Cavity = require('../../classes/Cavity');
+const Elbow = require('../../classes/Elbow');
 
 router.post('/', async(req,res,next) => {
       
     try{
-        console.log(req.body)
         const data = req.body;
-        const simulacao = new Elbow(data);
+
+        let simulacao;
+
+        switch (data.name) {
+            case 'elbow':
+                simulacao = new Elbow(data);
+                break;
+            
+            case 'cavity':
+                simulacao = new Cavity(data);
+                break;    
+
+            default:
+                throw new Error("Case Não está definido!");
+        }
+
+        
+        await simulacao.setParameters()
         const number = await simulacao.run()
-        aeait = simulacao.setParameters()
+        simulacao.delete(number);
         res.status(201);
-        res.send({"simulation" : simulacao , "number" : number});
+        res.send({"simulation" : simulacao, "number": number});
     }catch(erro){
         next(erro);
     }  
