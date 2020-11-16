@@ -12,8 +12,11 @@ class Simulacao {
         await this.execShellCommand(`./cases/'${this.name}'/Allrun`);
         const resp = await this.checkSucess();
 
-        if(resp !== 'End'){
-            throw new Error("Erro ao rodar simulação");
+        //console.log(resp)
+        if(resp == undefined || resp !== 'End'){
+            await this.execShellCommand(`./cases/'${this.name}'/Allclean`);
+            throw new Error("Erro ao rodar simulação." 
+            +"Provavelmente os parametros inseridos parecem não ser fisicamente compatíveis com o problema!");
         }
 
         let number =  Math.floor(Math.random() * 1000000000);
@@ -75,14 +78,14 @@ class Simulacao {
         let resp = await this.writeDict(data,`./cases/${this.name}/0/U`);
         
         if(resp != "OK"){
-            return "Erro ao Escrever Dicionario U!";
+            throw new Error("Erro ao Escrever Dicionario U!");
         }     
 
         data = await this.readDictNu();
         resp = await this.writeDict(data,`./cases/${this.name}/constant/transportProperties`);
 
         if(resp != "OK"){
-            return "Erro ao Escrever Dicionario nu!";
+            throw new Error("Erro ao Escrever Dicionario nu!");
         } 
     }
 }
