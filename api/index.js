@@ -18,6 +18,10 @@ app.use(bodyParser.json());
 const router = require('./routes/simulacao');
 app.use('/api/simulacao', router);
 
+app.get('/', (req, res) => {
+    res.send({"py": "tá on!"})
+});
+
 app.use((erro, req, res, next) => {
     let status = 400;
 
@@ -25,4 +29,4 @@ app.use((erro, req, res, next) => {
     res.send({mensagem: erro.message})
 });
 
-app.listen(config.get('api.porta'), () => console.log("Pai Tá ON!!"));
+app.listen(3030, () => console.log("Pai Tá ON!!"));

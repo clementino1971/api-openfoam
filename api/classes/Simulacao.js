@@ -1,20 +1,34 @@
 const { exec } = require("child_process");
 const fs = require("fs");
 
-const path_vtks = "/home/thailsson/Projetos/test/";
-const time_limit = 5;
+
+const home = "/home/clementino1971_2013/";
+//const home = "/home/thailsson/Projetos/server/";
+const path_vtks = "test/";
+const time_limit = 15;//minutes
 
 class Simulacao {
   
     async run(){
         console.log(this.name);
+        try{
+            await this.execShellCommand(`${home}api-openfoam/cases/'${this.name}'/Allclean`);
+        }catch (error){
+            
+        }
+        
 
-        await this.execShellCommand(`./cases/'${this.name}'/Allrun`);
-        const resp = await this.checkSucess();
+        try {
+            await this.execShellCommand(`${home}api-openfoam/cases/'${this.name}'/Allrun`);
+        } catch (error) {
+            throw new Error("Erro ao rodar simulação." 
+            +"Provavelmente os parametros inseridos parecem não ser fisicamente compatíveis com o problema!");
+        }
 
-        //console.log(resp)
+        let resp = await this.checkSucess();
+
         if(resp == undefined || resp !== 'End'){
-            await this.execShellCommand(`./cases/'${this.name}'/Allclean`);
+            await this.execShellCommand(`${home}api-openfoam/cases/'${this.name}'/Allclean`);
             throw new Error("Erro ao rodar simulação." 
             +"Provavelmente os parametros inseridos parecem não ser fisicamente compatíveis com o problema!");
         }
@@ -22,15 +36,15 @@ class Simulacao {
         let number =  Math.floor(Math.random() * 1000000000);
 
         
-        await this.execShellCommand(`./cases/'${this.name}'/SendVTK '${number}'`);
-        await this.execShellCommand(`./cases/'${this.name}'/Allclean`);
+        await this.execShellCommand(`${home}api-openfoam/cases/'${this.name}'/SendVTK '${number}'`);
+        await this.execShellCommand(`${home}api-openfoam/cases/'${this.name}'/Allclean`);
 
         return number;
     }
 
     async delete(number){
         setTimeout(() =>{
-           this.execShellCommand(`rm -r ${path_vtks}${number}`)
+           this.execShellCommand(`rm -r ${home}${path_vtks}${number}`)
         }   
         , time_limit*60000);
     }
@@ -48,7 +62,7 @@ class Simulacao {
 
     checkSucess(){
         return new Promise((resolve, reject) =>{
-            fs.readFile(`./cases/${this.name}/log.${this.solver}`, 'utf8', (err,data) => {
+            fs.readFile(`${home}api-openfoam/cases/${this.name}/log`, 'utf8', (err,data) => {
                 if (err) {
                     return reject(err);
                 }
@@ -75,14 +89,14 @@ class Simulacao {
 
     async setParameters(){
         let data = await this.readDictU();
-        let resp = await this.writeDict(data,`./cases/${this.name}/0/U`);
+        let resp = await this.writeDict(data,`${home}api-openfoam/cases/${this.name}/0/U`);
         
         if(resp != "OK"){
             throw new Error("Erro ao Escrever Dicionario U!");
         }     
 
         data = await this.readDictNu();
-        resp = await this.writeDict(data,`./cases/${this.name}/constant/transportProperties`);
+        resp = await this.writeDict(data,`${home}api-openfoam/cases/${this.name}/constant/transportProperties`);
 
         if(resp != "OK"){
             throw new Error("Erro ao Escrever Dicionario nu!");

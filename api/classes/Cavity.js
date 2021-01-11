@@ -1,6 +1,9 @@
 const Simulacao = require('./Simulacao');
 const fs = require("fs");
 
+const home = "/home/clementino1971_2013/";
+//const home = "/home/thailsson/Projetos/server/";
+
 class Cavity extends Simulacao{
     constructor({name,solver,parameters}){
         super();
@@ -11,7 +14,7 @@ class Cavity extends Simulacao{
 
     readDictU(){
         return new Promise((resolve, reject) =>{
-            fs.readFile(`./cases/${this.name}/0/U`, 'utf8', (err,data) => {
+            fs.readFile(`${home}api-openfoam/cases/${this.name}/0/U`, 'utf8', (err,data) => {
                 if (err) {
                     return reject(err);
                 }
@@ -30,7 +33,7 @@ class Cavity extends Simulacao{
 
     readDictNu(){
         return new Promise((resolve, reject) =>{
-            fs.readFile(`./cases/${this.name}/constant/transportProperties`, 'utf8', (err,data) => {
+            fs.readFile(`${home}api-openfoam/cases/${this.name}/constant/transportProperties`, 'utf8', (err,data) => {
                 if (err) {
                     return reject(err);
                 }

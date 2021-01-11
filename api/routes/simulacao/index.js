@@ -2,6 +2,10 @@ const router = require('express').Router();
 const Cavity = require('../../classes/Cavity');
 const Elbow = require('../../classes/Elbow');
 
+router.get('/', async(req,res,next) =>{
+	res.send({"py": "tá on!"})
+});
+
 router.post('/', async(req,res,next) => {
       
     try{
@@ -19,7 +23,7 @@ router.post('/', async(req,res,next) => {
                 break;    
 
             default:
-                throw new Error("Case Não está definido!");
+                throw new Error("Case Não está definido!" + data.name);
         }
 
         
