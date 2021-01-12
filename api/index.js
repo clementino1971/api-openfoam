@@ -11,7 +11,6 @@ app.use((req, res, next) => {
 
 
 const bodyParser = require('body-parser');
-const config = require('config')
 
 app.use(bodyParser.json());
 

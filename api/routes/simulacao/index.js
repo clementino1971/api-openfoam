@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Cavity = require('../../classes/Cavity');
 const Elbow = require('../../classes/Elbow');
+const FlowInPoreSpace = require('../../classes/FlowInPoreSpace');
 
 router.get('/', async(req,res,next) =>{
 	res.send({"py": "tá on!"})
@@ -21,6 +22,10 @@ router.post('/', async(req,res,next) => {
             case 'cavity':
                 simulacao = new Cavity(data);
                 break;    
+            
+            case 'FlowInPoreSpace':
+                simulacao = new FlowInPoreSpace(data);
+                break;     
 
             default:
                 throw new Error("Case Não está definido!" + data.name);

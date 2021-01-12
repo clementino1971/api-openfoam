@@ -1,13 +1,31 @@
 const { exec } = require("child_process");
 const fs = require("fs");
 
+const getProperty = require('../properties.js')
 
-const home = "/home/clementino1971_2013/";
-//const home = "/home/thailsson/Projetos/server/";
-const path_vtks = "test/";
-const time_limit = 15;//minutes
+const home = getProperty('app.home');
+const path_vtks = getProperty('app.path_vtks');
+const time_limit = getProperty('app.time_limit');
 
 class Simulacao {
+
+    readDictU(){
+        return new Promise((resolve, reject) =>{
+            resolve(null);
+        });
+    }
+
+    readDictNu(){
+        return new Promise((resolve, reject) =>{
+            resolve(null);
+        });
+    }
+
+    readDictp(){
+        return new Promise((resolve, reject) =>{
+            resolve(null);
+        });
+    }
   
     async run(){
         console.log(this.name);
@@ -36,7 +54,7 @@ class Simulacao {
         let number =  Math.floor(Math.random() * 1000000000);
 
         
-        await this.execShellCommand(`${home}api-openfoam/cases/'${this.name}'/SendVTK '${number}'`);
+        await this.execShellCommand(`${home}api-openfoam/cases/'${this.name}'/SendVTK '${number}' ${home}`);
         await this.execShellCommand(`${home}api-openfoam/cases/'${this.name}'/Allclean`);
 
         return number;
@@ -77,13 +95,18 @@ class Simulacao {
 
     async writeDict(data,file){
         return new Promise((resolve, reject) =>{
-            fs.writeFile(file, data, (err) => {
-                if (err) {
-                    return reject(err);
-                }
-                
+            if(data == null){
                 resolve("OK");
-            });
+            }else{
+                fs.writeFile(file, data, (err) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    
+                    resolve("OK");
+                });
+            }    
+            
         });
     }
 
@@ -100,6 +123,13 @@ class Simulacao {
 
         if(resp != "OK"){
             throw new Error("Erro ao Escrever Dicionario nu!");
+        } 
+
+        data = await this.readDictp();
+        resp = await this.writeDict(data,`${home}api-openfoam/cases/${this.name}/0/p`);
+
+        if(resp != "OK"){
+            throw new Error("Erro ao Escrever Dicionario p!");
         } 
     }
 }

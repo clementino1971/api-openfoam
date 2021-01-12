@@ -20,34 +20,35 @@ internalField   uniform (0 0 0);
 
 boundaryField
 {
-    wall-4
-    {
-        type            noSlip;
-    }
-
-    velocity-inlet-5
+    fixedWalls
     {
         type            fixedValue;
-        value           uniform (1 0 0);
+        value           uniform (0 0 0);
     }
 
-    velocity-inlet-6
-    {
-        type            fixedValue;
-        value           uniform (0 1 0);
-    }
-
-    pressure-outlet-7
+    left
     {
         type            zeroGradient;
     }
 
-    wall-8
+    right
     {
-        type            noSlip;
+        type            zeroGradient;
     }
 
-    frontAndBackPlanes
+    bottom
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+
+    top
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+
+    frontAndBack
     {
         type            empty;
     }

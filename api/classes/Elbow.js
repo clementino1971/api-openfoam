@@ -1,9 +1,9 @@
 const Simulacao = require('./Simulacao');
 const fs = require("fs");
 
+const getProperty = require('../properties.js')
 
-const home = "/home/clementino1971_2013/";
-//const home = "/home/thailsson/Projetos/server/";
+const home = getProperty('app.home');
 
 class Elbow extends Simulacao{
     constructor({name,solver,parameters}){

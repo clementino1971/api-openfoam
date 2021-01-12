@@ -4,7 +4,7 @@
   "description": "An API to run openFoam simulations.",
   "main": "index.js",
   "scripts": {
-    "start" : "node api/index.js",
+    "start": "node api/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,5 +16,13 @@
   "bugs": {
     "url": "https://github.com/clementino1971/api-openfoam/issues"
   },
-  "homepage": "https://github.com/clementino1971/api-openfoam#readme"
+  "homepage": "https://github.com/clementino1971/api-openfoam#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "child_process": "^1.0.2",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "merge-descriptors": "^1.0.1",
+    "properties-reader": "^2.2.0"
+  }
 }
